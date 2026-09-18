@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agri Labour Connect | వ్యవసాయ కూలీల అనుసంధాన వేదిక</title>
+  <meta name="description" content="Connecting farmers with verified agricultural labourers in Andhra Pradesh & Telangana. Find workers for harvesting, planting, spraying, weeding and tractor driving.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- Top Emergency Announcement Ribbon -->
+  <aside class="emergency-top-bar" role="alert">
+    <span class="sos-pulse-dot" aria-hidden="true"></span>
+    <span data-i18n="emergencyTitle">Workers Cancelled at the Last Minute? Request Emergency Labour!</span>
+    <a href="#emergency-section" id="top-sos-link" data-i18n="btnEmergencySos">🚨 Request Replacement Labour</a>
+  </aside>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="brand-logo" aria-label="Agri Labour Connect Home">
+        <div class="brand-icon">🌾</div>
+        <div>
+          <div class="brand-title">AgriLabour<span>Connect</span></div>
+          <div class="brand-subtitle" data-i18n="tagline">Connecting Farmers with Skilled Agricultural Workers</div>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links" id="nav-menu">
+          <li><a href="#find-workers" class="nav-link" data-i18n="navFindLabour">👷 Find Workers</a></li>
+          <li><a href="#job-board" class="nav-link" data-i18n="navJobs">🌾 Agri Jobs</a></li>
+          <li><a href="#wage-guide" class="nav-link" data-i18n="navWageGuide">💰 Wage Guide</a></li>
+          <li><a href="#availability" class="nav-link" data-i18n="navAvailability">📅 Availability</a></li>
+          <li><a href="#emergency-section" class="nav-link" style="color: #dc2626;" data-i18n="navEmergency">🚨 Emergency</a></li>
+        </ul>
+      </nav>
+
+      <!-- Action Buttons & Language Switcher -->
+      <div class="nav-actions">
+        <!-- Language Switcher -->
+        <button class="btn-lang" id="btn-lang-toggle" aria-label="Switch Language to Telugu or English">
+          🌐 <span id="current-lang-text">తెలుగు</span>
+        </button>
+
+        <!-- Post Job Button for Farmers -->
+        <button class="btn btn-primary btn-sm" id="btn-open-post-job" data-i18n="btnPostJob">+ Post a Job</button>
+        
+        <!-- Register Worker Button -->
+        <button class="btn btn-secondary btn-sm" id="btn-open-labour-reg" data-i18n="btnRegisterWorker">+ Register as Worker</button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-header">
+          <div class="hero-badge">
+            <span>🇮🇳</span> <span data-i18n="heroSubtitle">Directly connect with nearby verified workers for harvesting, planting, spraying & more</span>
+          </div>
+
+          <h1 class="hero-title" data-i18n="heroTitle">
+            Hire Skilled Agricultural Labour for Your Farm
+          </h1>
+
+          <p class="hero-subtitle" data-i18n="heroSubtitle">
+            Directly connect with nearby verified workers for harvesting, planting, spraying, weeding & more in Andhra Pradesh & Telangana.
+          </p>
+
+          <!-- Homepage layout role buttons requested by user -->
+          <div class="hero-role-cta">
+            <button class="btn btn-primary btn-lg" id="role-farmer-btn" data-i18n="btnFarmer">
+              👨‍🌾 I am a Farmer
+            </button>
+            <button class="btn btn-secondary btn-lg" id="role-labour-btn" data-i18n="btnLabourer">
+              👷 I am a Labourer
+            </button>
+          </div>
+
+          <!-- Quick Stats Counter -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-icon">👷‍♂️</span>
+              <span data-i18n="statsWorkers">2,450+ Active Workers</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">🌾</span>
+              <span data-i18n="statsFarmers">1,800+ Farmers Connected</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">📍</span>
+              <span data-i18n="statsVillages">320+ Villages Covered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Find Agricultural Workers - Search Box Form -->
+        <div class="search-card" id="search-box">
+          <div class="search-card-header">
+            <h2 class="search-card-title">
+              <span>📍</span> <span data-i18n="searchHeading">Find Agricultural Workers Nearby</span>
+            </h2>
+            <button class="btn btn-outline btn-sm" id="btn-reset-filters" data-i18n="btnClearFilter">Reset Filters</button>
+          </div>
+
+          <form id="search-workers-form" onsubmit="event.preventDefault(); window.App.filterWorkers();">
+            <div class="search-grid">
+              <!-- Select District -->
+              <div class="form-group">
+                <label for="search-district" class="form-label">
+                  <span>🏛️</span> <span data-i18n="labelDistrict">Select District</span>
+                </label>
+                <select id="search-district" class="form-control">
+                  <option value="">All Districts (అన్ని జిల్లాలు)</option>
+                </select>
+              </div>
+
+              <!-- Select Mandal -->
+              <div class="form-group">
+                <label for="search-mandal" class="form-label">
+                  <span>🏘️</span> <span data-i18n="labelMandal">Select Mandal</span>
+                </label>
+                <select id="search-mandal" class="form-control" disabled>
+                  <option value="">Select District First</option>
+                </select>
+              </div>
+
+              <!-- Select Village -->
+              <div class="form-group">
+                <label for="search-village" class="form-label">
+                  <span>🏡</span> <span data-i18n="labelVillage">Select Village / Area</span>
+                </label>
+                <select id="search-village" class="form-control" disabled>
+                  <option value="">Select Mandal First</option>
+                </select>
+              </div>
+
+              <!-- Work Required -->
+              <div class="form-group">
+                <label for="search-work-type" class="form-label">
+                  <span>🛠️</span> <span data-i18n="labelWorkType">Work Required</span>
+                </label>
+                <select id="search-work-type" class="form-control">
+                  <option value="" data-i18n="workAll">All Work Types</option>
+                  <option value="harvesting" data-i18n="workHarvesting">🌾 Harvesting (కోత)</option>
+                  <option value="planting" data-i18n="workPlanting">🌱 Planting / Transplantation (నాట్లు)</option>
+                  <option value="spraying" data-i18n="workSpraying">🧪 Spraying / Fertilizers (మందులు చల్లడం)</option>
+                  <option value="weeding" data-i18n="workWeeding">🌿 Weeding (కలుపు తీయడం)</option>
+                  <option value="tractor" data-i18n="workTractor">🚜 Tractor / Machine Operator (ట్రాక్టర్)</option>
+                  <option value="plucking" data-i18n="workPlucking">🌶️ Plucking (Chilli/Cotton) (ఏరడం)</option>
+                  <option value="loading" data-i18n="workLoading">📦 Loading & Transport (రవాణా)</option>
+                </select>
+              </div>
+
+              <!-- Number of Workers -->
+              <div class="form-group">
+                <label for="search-worker-count" class="form-label">
+                  <span>👥</span> <span data-i18n="labelWorkerCount">Number of Workers</span>
+                </label>
+                <input type="number" id="search-worker-count" class="form-control" placeholder="e.g. 5 or 12" min="1" max="50">
+              </div>
+
+              <!-- Date -->
+              <div class="form-group">
+                <label for="search-date" class="form-label">
+                  <span>📅</span> <span data-i18n="labelDate">Work Date</span>
+                </label>
+                <input type="date" id="search-date" class="form-control">
+              </div>
+            </div>
+
+            <div class="search-actions">
+              <button type="submit" class="btn btn-primary btn-lg" id="btn-search-submit" style="width: 100%; max-width: 400px; margin: 0 auto;" data-i18n="btnSearchWorkers">
+                🔍 Search Available Workers
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emergency Labour Section -->
+    <section class="emergency-banner-section" id="emergency-section">
+      <div class="container">
+        <div class="emergency-banner">
+          <div class="emergency-content">
+            <span class="emergency-badge" data-i18n="emergencyBadge">🚨 URGENT DISPATCH</span>
+            <h2 class="emergency-title" data-i18n="emergencyTitle">Workers Cancelled at the Last Minute? Request Emergency Labour!</h2>
+            <p class="emergency-desc" data-i18n="emergencyDesc">
+              Get instant replacement worker teams within 1-2 hours for critical harvest days or rain threats. Direct hotline and WhatsApp broadcast to verified local squads.
+            </p>
+          </div>
+          <div class="emergency-actions">
+            <button class="btn btn-danger btn-lg" id="btn-open-emergency-sos" data-i18n="btnEmergencySos">
+              🚨 Request Emergency Replacement Labour
+            </button>
+            <div class="emergency-helpline-text" data-i18n="sosHelpline">
+              📞 24/7 Helpline: 1800-425-AGRI (Toll Free)
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Worker Directory Section -->
+    <section class="section" id="find-workers">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <span>👷‍♂️</span> <span data-i18n="workersHeading">Available Agricultural Workers & Groups</span>
+            </h2>
+            <p class="section-subtitle" data-i18n="workersSubheading">
+              Verified local labour with skills, transparent daily wage rates & real farmer reviews.
+            </p>
+          </div>
+
+          <button class="btn btn-secondary" id="btn-register-labour-top" data-i18n="btnRegisterWorker">
+            + Register as Worker
+          </button>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="directory-controls">
+          <div class="filter-pills" id="worker-filter-pills">
+            <button class="pill-btn active" data-filter="all" data-i18n="filterAll">All Workers</button>
+            <button class="pill-btn" data-filter="available" data-i18n="filterAvailableToday">✅ Available Today</button>
+            <button class="pill-btn" data-filter="group" data-i18n="filterGroup">👥 Labour Groups (5-20)</button>
+            <button class="pill-btn" data-filter="individual" data-i18n="filterIndividual">👤 Single Worker</button>
+          </div>
+
+          <div class="sort-wrapper">
+            <label for="worker-sort" class="form-label" style="margin:0;" data-i18n="sortBy">Sort by:</label>
+            <select id="worker-sort" class="sort-select">
+              <option value="rating" data-i18n="sortRating">Highest Rated ⭐</option>
+              <option value="wage_asc" data-i18n="sortWageLow">Wage: Low to High</option>
+              <option value="wage_desc" data-i18n="sortWageHigh">Wage: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Worker Cards Grid -->
+        <div class="workers-grid" id="workers-container">
+          <!-- Populated by js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Agri Jobs Board Section -->
+    <section class="section" id="job-board" style="background: var(--bg-surface);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <span>🌾</span> <span data-i18n="jobsHeading">Farmer Job Openings (కూలీల అవసరాలు)</span>
+            </h2>
+            <p class="section-subtitle" data-i18n="jobsSubheading">
+              Farmers looking for workers right now. Labourers can contact farmers directly via WhatsApp or phone.
+            </p>
+          </div>
+
+          <button class="btn btn-primary" id="btn-post-job-top" data-i18n="btnPostJob">
+            + Post a Job
+          </button>
+        </div>
+
+        <!-- Jobs Grid -->
+        <div class="jobs-grid" id="jobs-container">
+          <!-- Populated by js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Daily Wage Information & Cost Estimator Section -->
+    <section class="section" id="wage-guide">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <span>💰</span> <span data-i18n="wageHeading">Transparent Daily Wage Reference Guide</span>
+            </h2>
+            <p class="section-subtitle" data-i18n="wageSubheading">
+              Standard fair daily wage benchmark per day (8 hours) in Andhra Pradesh & Telangana.
+            </p>
+          </div>
+        </div>
+
+        <div class="wage-guide-container">
+          <!-- Rate Card Table -->
+          <div class="wage-table-wrapper">
+            <div class="table-responsive">
+              <table class="wage-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="colWorkType">Agricultural Operation</th>
+                    <th data-i18n="colCrop">Primary Crops</th>
+                    <th data-i18n="colAvgWage">Standard Daily Wage</th>
+                    <th data-i18n="colPerAcre">Per Acre Rate</th>
+                    <th data-i18n="colHours">Typical Hours</th>
+                  </tr>
+                </thead>
+                <tbody id="wage-table-body">
+                  <!-- Populated by js/app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Farm Labour Cost Estimator Widget -->
+          <div class="cost-calculator-card">
+            <div>
+              <h3 class="calc-title" data-i18n="calcTitle">🌾 Farm Labour Cost Estimator</h3>
+              <p class="calc-desc" data-i18n="calcDesc">Calculate estimated labor expenditure for your farm:</p>
+
+              <form class="calc-form" id="cost-calc-form">
+                <div class="form-group">
+                  <label for="calc-work-type" class="form-label" data-i18n="calcSelectWork">Select Operation:</label>
+                  <select id="calc-work-type" class="form-control">
+                    <option value="650">🌾 Paddy Harvesting (₹650/day)</option>
+                    <option value="550">🌱 Paddy Planting (₹550/day)</option>
+                    <option value="850">🧪 Pesticide Spraying (₹850/day)</option>
+                    <option value="500">🌿 Field Weeding (₹500/day)</option>
+                    <option value="520">🌶️ Cotton / Chilli Plucking (₹520/day)</option>
+                    <option value="950">🚜 Tractor Operator (₹950/day)</option>
+                    <option value="750">📦 Bag Loading & Transport (₹750/day)</option>
+                  </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                  <div class="form-group">
+                    <label for="calc-workers" class="form-label" data-i18n="calcWorkersCount">No. of Workers:</label>
+                    <input type="number" id="calc-workers" class="form-control" value="10" min="1" max="100">
+                  </div>
+                  <div class="form-group">
+                    <label for="calc-days" class="form-label" data-i18n="calcDaysCount">No. of Days:</label>
+                    <input type="number" id="calc-days" class="form-control" value="2" min="1" max="30">
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div class="calc-result-box">
+              <div class="calc-result-label" data-i18n="calcTotalEstimate">Estimated Labour Cost:</div>
+              <div class="calc-result-value" id="calc-total-display">₹13,000</div>
+              <div class="calc-result-hint">* Standard 8-hour shift calculation excluding food/transport</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Availability Calendar Section -->
+    <section class="section" id="availability" style="background: var(--bg-surface);">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <span>📅</span> <span data-i18n="calendarHeading">Labour Availability Tracker</span>
+            </h2>
+            <p class="section-subtitle" data-i18n="calendarSubheading">
+              Check seasonal worker availability across mandals for upcoming harvest windows.
+            </p>
+          </div>
+        </div>
+
+        <div class="calendar-card">
+          <div class="calendar-week-grid" id="calendar-week-container">
+            <!-- Populated by js/app.js -->
+          </div>
+
+          <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; font-size: 0.88rem; font-weight: 700;">
+            <span style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; background: #16a34a; border-radius: 3px; display: inline-block;"></span>
+              <span data-i18n="calModerate">Good Availability (100+ Workers Free)</span>
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.4rem;">
+              <span style="width: 12px; height: 12px; background: #dc2626; border-radius: 3px; display: inline-block;"></span>
+              <span data-i18n="calHighDemand">High Demand / Pre-Booked (Book Early)</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ratings & Testimonials Section -->
+    <section class="section" id="reviews-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <h2 class="section-title">
+              <span>⭐</span> <span data-i18n="reviewsHeading">Farmer & Worker Testimonials</span>
+            </h2>
+            <p class="section-subtitle" data-i18n="reviewsSubheading">
+              Real experiences from agricultural communities using Agri Labour Connect.
+            </p>
+          </div>
+
+          <button class="btn btn-outline" id="btn-open-review-modal" data-i18n="btnWriteReview">
+            ⭐ Leave a Rating & Review
+          </button>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div class="reviews-grid" id="reviews-container">
+          <!-- Populated by js/app.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- Farmer Registration / Booking Modal -->
+  <div class="modal-overlay" id="modal-farmer-reg" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modalFarmerTitle">👨‍🌾 Farmer Registration</h3>
+        <button class="modal-close" data-close-modal="modal-farmer-reg">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" data-i18n="modalFarmerDesc">Register your farm to post jobs and book agricultural labourers quickly.</p>
+        
+        <form id="farmer-reg-form" class="modal-form">
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formName">Full Name</span> <span class="req">*</span></label>
+            <input type="text" id="farmer-name" class="form-control" placeholder="e.g. Kondaveeti Sambasiva Rao" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formPhone">Mobile Number (WhatsApp)</span> <span class="req">*</span></label>
+            <input type="tel" id="farmer-phone" class="form-control" placeholder="e.g. 9848012345" required pattern="[0-9]{10}">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formDistrict">District</span> <span class="req">*</span></label>
+              <select id="farmer-district" class="form-control" required>
+                <option value="">Select District</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formMandal">Mandal</span> <span class="req">*</span></label>
+              <input type="text" id="farmer-mandal" class="form-control" placeholder="e.g. Tenali" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formVillage">Village Name</span> <span class="req">*</span></label>
+            <input type="text" id="farmer-village" class="form-control" placeholder="e.g. Burripalem" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formCrops">Crops Cultivated</span> <span class="req">*</span></label>
+            <input type="text" id="farmer-crops" class="form-control" placeholder="e.g. Paddy (వరి), Chilli (మిర్చి), Cotton (పత్తి)" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formFarmSize">Farm Size (in Acres)</span></label>
+            <input type="number" id="farmer-size" class="form-control" placeholder="e.g. 6 Acres" min="0.5" step="0.5">
+          </div>
+
+          <div class="modal-footer" style="padding: 0; margin-top: 1rem;">
+            <button type="button" class="btn btn-outline" data-close-modal="modal-farmer-reg" data-i18n="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-i18n="btnSubmit">Submit & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Labourer Registration Modal -->
+  <div class="modal-overlay" id="modal-labour-reg" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modalLabourTitle">👷 Agricultural Labourer Registration</h3>
+        <button class="modal-close" data-close-modal="modal-labour-reg">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" data-i18n="modalLabourDesc">Create your worker profile to receive daily work calls and WhatsApp bookings.</p>
+        
+        <form id="labour-reg-form" class="modal-form">
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formName">Full Name / Gang Leader Name</span> <span class="req">*</span></label>
+            <input type="text" id="worker-name" class="form-control" placeholder="e.g. Rambabu (Jai Kisan Group)" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formPhone">Mobile Number (WhatsApp)</span> <span class="req">*</span></label>
+            <input type="tel" id="worker-phone" class="form-control" placeholder="e.g. 9440156789" required pattern="[0-9]{10}">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formWorkerType">Worker Type</span> <span class="req">*</span></label>
+              <select id="worker-type-select" class="form-control" required>
+                <option value="group">👥 Labour Group / Gang (ముఠా)</option>
+                <option value="individual">👤 Individual Worker (వ్యక్తిగత)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formGroupSize">Group Size</span></label>
+              <input type="number" id="worker-group-size" class="form-control" placeholder="e.g. 12" value="10" min="1" max="50">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formDistrict">District</span> <span class="req">*</span></label>
+              <select id="worker-district" class="form-control" required>
+                <option value="">Select District</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formMandal">Mandal</span> <span class="req">*</span></label>
+              <input type="text" id="worker-mandal" class="form-control" placeholder="e.g. Tenali" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formVillage">Village Name</span> <span class="req">*</span></label>
+            <input type="text" id="worker-village" class="form-control" placeholder="e.g. Burripalem" required>
+          </div>
+
+          <!-- Skills selection -->
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formSkills">Skills / Work Types</span> <span class="req">*</span></label>
+            <div class="checkbox-grid">
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="harvesting" checked> 🌾 Harvesting (కోత)</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="planting" checked> 🌱 Planting (నాట్లు)</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="spraying"> 🧪 Spraying (పిచికారీ)</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="weeding" checked> 🌿 Weeding (కలుపు)</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="tractor"> 🚜 Tractor Operator</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="plucking"> 🌶️ Plucking (ఏరడం)</label>
+              <label class="checkbox-item"><input type="checkbox" name="skills" value="loading"> 📦 Loading (మోత)</label>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formDailyWage">Daily Wage (₹)</span> <span class="req">*</span></label>
+              <input type="number" id="worker-wage" class="form-control" placeholder="e.g. 600" value="600" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formExperience">Experience</span></label>
+              <input type="text" id="worker-exp" class="form-control" placeholder="e.g. 8 Years" value="8 Years">
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding: 0; margin-top: 1rem;">
+            <button type="button" class="btn btn-outline" data-close-modal="modal-labour-reg" data-i18n="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-secondary" data-i18n="btnSubmit">Submit & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post a Job Modal -->
+  <div class="modal-overlay" id="modal-post-job" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modalPostJobTitle">🌾 Post an Agricultural Job Opening</h3>
+        <button class="modal-close" data-close-modal="modal-post-job">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="post-job-form" class="modal-form">
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="labelFarmerName">Farmer Name</span> <span class="req">*</span></label>
+            <input type="text" id="job-farmer-name" class="form-control" placeholder="e.g. Kondaveeti Sambasiva Rao" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formPhone">Mobile Number (WhatsApp)</span> <span class="req">*</span></label>
+            <input type="tel" id="job-phone" class="form-control" placeholder="e.g. 9848555443" required pattern="[0-9]{10}">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formJobTitle">Job Title</span> <span class="req">*</span></label>
+            <input type="text" id="job-title-input" class="form-control" placeholder="e.g. Urgent Paddy Harvest (8 Acres)" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formWorkType">Work Type</span> <span class="req">*</span></label>
+              <select id="job-work-type" class="form-control" required>
+                <option value="harvesting">🌾 Harvesting (కోత)</option>
+                <option value="planting">🌱 Planting / Transplantation (నాట్లు)</option>
+                <option value="spraying">🧪 Spraying (పిచికారీ)</option>
+                <option value="weeding">🌿 Weeding (కలుపు తీత)</option>
+                <option value="tractor">🚜 Tractor Operation</option>
+                <option value="plucking">🌶️ Chilli / Cotton Plucking</option>
+                <option value="loading">📦 Loading & Bagging</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span>🌾 Crop</span> <span class="req">*</span></label>
+              <input type="text" id="job-crop" class="form-control" placeholder="e.g. Paddy (వరి)" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formWorkersCount">Workers Needed</span> <span class="req">*</span></label>
+              <input type="number" id="job-workers-needed" class="form-control" placeholder="e.g. 10" required min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formOfferedWage">Offered Wage (₹/day)</span> <span class="req">*</span></label>
+              <input type="number" id="job-offered-wage" class="form-control" placeholder="e.g. 700" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formDistrict">District</span> <span class="req">*</span></label>
+              <select id="job-district" class="form-control" required>
+                <option value="">Select District</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formMandal">Mandal</span> <span class="req">*</span></label>
+              <input type="text" id="job-mandal" class="form-control" placeholder="e.g. Tenali" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formWorkDate">Starting Date</span> <span class="req">*</span></label>
+              <input type="date" id="job-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formFoodProvided">Food Provided?</span></label>
+              <select id="job-food" class="form-control">
+                <option value="true" data-i18n="optYes">Yes, Provided</option>
+                <option value="false" data-i18n="optNo">No, Self Arranged</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formJobDetails">Farm Location & Details</span></label>
+            <textarea id="job-desc" class="form-control" rows="3" placeholder="e.g. Near Kolakaluru sub-station, lunch provided, water available."></textarea>
+          </div>
+
+          <div class="modal-footer" style="padding: 0; margin-top: 1rem;">
+            <button type="button" class="btn btn-outline" data-close-modal="modal-post-job" data-i18n="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-i18n="btnSubmit">Submit & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Emergency SOS Labour Dispatch Modal -->
+  <div class="modal-overlay" id="modal-emergency-sos" role="dialog" aria-modal="true">
+    <div class="modal-box" style="border-top: 6px solid var(--danger-sos);">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: var(--danger-sos);" data-i18n="modalSosTitle">🚨 Emergency Labour SOS Request</h3>
+        <button class="modal-close" data-close-modal="modal-emergency-sos">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #fee2e2; border-radius: var(--radius-sm); padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.88rem; color: #991b1b; font-weight: 600;">
+          ⚠️ Emergency requests are prioritized and broadcasted immediately to all nearby verified labour groups via WhatsApp and SMS!
+        </div>
+
+        <form id="emergency-sos-form" class="modal-form">
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formName">Farmer Name</span> <span class="req">*</span></label>
+            <input type="text" id="sos-name" class="form-control" placeholder="e.g. Sambasiva Rao" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formPhone">Contact Phone (WhatsApp)</span> <span class="req">*</span></label>
+            <input type="tel" id="sos-phone" class="form-control" placeholder="e.g. 9848012345" required pattern="[0-9]{10}">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formDistrict">District</span> <span class="req">*</span></label>
+              <select id="sos-district" class="form-control" required>
+                <option value="Guntur">Guntur</option>
+                <option value="Krishna">Krishna</option>
+                <option value="West Godavari">West Godavari</option>
+                <option value="East Godavari">East Godavari</option>
+                <option value="Kurnool">Kurnool</option>
+                <option value="Warangal">Warangal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formMandal">Mandal & Village</span> <span class="req">*</span></label>
+              <input type="text" id="sos-location" class="form-control" placeholder="e.g. Tenali, Burripalem" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formWorkersCount">Workers Needed</span> <span class="req">*</span></label>
+              <input type="number" id="sos-count" class="form-control" placeholder="e.g. 10" required min="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label"><span data-i18n="formSosUrgency">Required Within</span> <span class="req">*</span></label>
+              <select id="sos-urgency" class="form-control">
+                <option value="2_hours" data-i18n="optUrgent1hr">Within 2 Hours (Super Urgent)</option>
+                <option value="today" data-i18n="optUrgentToday">Today Morning / Afternoon</option>
+                <option value="tomorrow_6am" data-i18n="optUrgentTomorrow">Tomorrow Morning (6:00 AM)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formSosReason">Emergency Reason</span> <span class="req">*</span></label>
+            <input type="text" id="sos-reason" class="form-control" placeholder="e.g. Rain expected, Scheduled workers cancelled" required>
+          </div>
+
+          <div class="modal-footer" style="padding: 0; margin-top: 1rem;">
+            <button type="button" class="btn btn-outline" data-close-modal="modal-emergency-sos" data-i18n="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-danger" data-i18n="btnSendSos">🚨 Dispatch Emergency Request</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ratings & Review Modal -->
+  <div class="modal-overlay" id="modal-review" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title" data-i18n="modalReviewTitle">⭐ Submit Worker / Farmer Review</h3>
+        <button class="modal-close" data-close-modal="modal-review">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="review-form" class="modal-form">
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formName">Your Name & Village</span> <span class="req">*</span></label>
+            <input type="text" id="review-author" class="form-control" placeholder="e.g. K. Appa Rao (Farmer, Tenali)" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span>Your Role</span> <span class="req">*</span></label>
+            <select id="review-role" class="form-control" required>
+              <option value="Farmer">Farmer (రైతు)</option>
+              <option value="Labourer">Labourer / Gang Leader (కూలీ / మేస్త్రి)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formRatingScore">Rating Score</span> <span class="req">*</span></label>
+            <select id="review-rating" class="form-control" required>
+              <option value="5">⭐⭐⭐⭐⭐ (5 - Outstanding / అద్భుతం)</option>
+              <option value="4">⭐⭐⭐⭐ (4 - Very Good / చాలా మంచిది)</option>
+              <option value="3">⭐⭐⭐ (3 - Good / బాగుంది)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label"><span data-i18n="formReviewComments">Feedback / Work Experience</span> <span class="req">*</span></label>
+            <textarea id="review-comment" class="form-control" rows="3" placeholder="Describe your experience with the workers or farmer..." required></textarea>
+          </div>
+
+          <div class="modal-footer" style="padding: 0; margin-top: 1rem;">
+            <button type="button" class="btn btn-outline" data-close-modal="modal-review" data-i18n="btnCancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-i18n="btnSubmit">Submit & Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Quick SOS & WhatsApp Actions -->
+  <div class="floating-actions">
+    <button class="fab-btn fab-sos" id="fab-sos-btn" aria-label="Quick Emergency Labour Dispatch">
+      🚨 <span data-i18n="btnEmergencySos">Emergency Labour</span>
+    </button>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo" style="margin-bottom: 0.5rem;">
+            <div class="brand-icon">🌾</div>
+            <div>
+              <div class="brand-title">AgriLabour<span>Connect</span></div>
+            </div>
+          </div>
+          <p class="footer-desc" data-i18n="footerAbout">
+            Agri Labour Connect empowers farmers and rural workers with direct, transparent, and fair agricultural job connections with zero middleman commissions.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading" data-i18n="footerLinks">Quick Navigation</h4>
+          <ul class="footer-links-list">
+            <li><a href="#find-workers" class="footer-link" data-i18n="navFindLabour">Find Workers</a></li>
+            <li><a href="#job-board" class="footer-link" data-i18n="navJobs">Agri Jobs</a></li>
+            <li><a href="#wage-guide" class="footer-link" data-i18n="navWageGuide">Wage Guide</a></li>
+            <li><a href="#availability" class="footer-link" data-i18n="navAvailability">Availability Tracker</a></li>
+            <li><a href="#emergency-section" class="footer-link" data-i18n="navEmergency">Emergency Dispatch</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading" data-i18n="footerDistricts">Active Districts</h4>
+          <ul class="footer-links-list">
+            <li><a href="#find-workers" class="footer-link">📍 Guntur (గుంటూరు)</a></li>
+            <li><a href="#find-workers" class="footer-link">📍 Krishna (కృష్ణా)</a></li>
+            <li><a href="#find-workers" class="footer-link">📍 West Godavari (పశ్చిమ గోదావరి)</a></li>
+            <li><a href="#find-workers" class="footer-link">📍 East Godavari (తూర్పు గోదావరి)</a></li>
+            <li><a href="#find-workers" class="footer-link">📍 Kurnool (కర్నూలు)</a></li>
+            <li><a href="#find-workers" class="footer-link">📍 Warangal & Khammam</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading" data-i18n="footerHelpline">Kisan & Labour Helpline</h4>
+          <div class="footer-helpline-box">
+            <div class="footer-phone">1800-425-AGRI</div>
+            <div style="font-size: 0.82rem; color: #c8e6c9;">Toll-Free Agricultural Support (6 AM - 9 PM)</div>
+            <div style="margin-top: 0.75rem;">
+              <a href="https://wa.me/919848012345?text=Hello%20Agri%20Labour%20Connect" target="_blank" class="btn btn-whatsapp btn-sm" style="width: 100%;">
+                💬 WhatsApp Helpline
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p data-i18n="footerCopy">
+          © 2026 Agri Labour Connect. Built with ❤️ for Indian Agriculture & Farming Communities.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/translations.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
